@@ -2,6 +2,7 @@ package main
 
 import (
 	"log"
+	"time"
 
 	"github.com/ttvs-blockchain/local-chain/internal/ledger"
 )
@@ -9,7 +10,7 @@ import (
 func main() {
 	lc := ledger.NewController()
 	defer lc.Close()
-	id, err := lc.SubmitTX("test", 1)
+	id, err := lc.SubmitTX("test", time.Now().UnixNano())
 	handleErr(err)
 	err = lc.GetAllTXs()
 	handleErr(err)
