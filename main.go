@@ -5,9 +5,11 @@ import "github.com/ttvs-blockchain/local-chain/internal/ledger"
 func main() {
 	lc := ledger.NewController()
 	defer lc.Close()
-	err := lc.SubmitTx("test", 1)
+	id, err := lc.SubmitTX("test", 1)
 	handleErr(err)
 	err = lc.GetAllTXs()
+	handleErr(err)
+	err = lc.FindTX(id)
 	handleErr(err)
 }
 

@@ -18,6 +18,8 @@ const (
 	walletLabel      = "appUser"
 	org1MSPid        = "Org1MSP"
 	createTXFuncName = "CreateTX"
+	findTXFuncName   = "ReadTX"
+	getAllTXFuncName = "GetAllTXs"
 )
 
 var (
@@ -102,23 +104,36 @@ func (s *Controller) Close() {
 	s.gw.Close()
 }
 
-func (s *Controller) SubmitTx(binding string, timestamp int64) error {
+func (s *Controller) SubmitTX(binding string, timestamp int64) (string, error) {
 	// log.Println("--> Submit Transaction: Invoke, function that adds a new asset")
-	_, err := s.ct.SubmitTransaction(createTXFuncName, binding, strconv.FormatInt(timestamp, 10))
+	txID, err := s.ct.SubmitTransaction(createTXFuncName, binding, strconv.FormatInt(timestamp, 10))
 	if err != nil {
 		log.Fatalf("Failed to Submit transaction: %v", err)
-		return err
+		return "", err
 	}
 	// log.Println(string(result))
+	return string(txID), nil
+}
+
+func (s *Controller) FindTX(txID string) error {
+	results, err := s.ct.EvaluateTransaction(findTXFuncName, txID)
+	if err != nil {
+		log.Fatalf("Failed to evaluate transaction: %v", err)
+	}
+	for _, result := range results {
+		log.Println(string(result))
+	}
 	return nil
 }
 
 func (s *Controller) GetAllTXs() error {
-	result, err := s.ct.EvaluateTransaction("GetAllTXs")
+	results, err := s.ct.EvaluateTransaction(getAllTXFuncName)
 	if err != nil {
 		log.Fatalf("Failed to evaluate transaction: %v", err)
 	}
-	log.Println(string(result))
+	for _, result := range results {
+		log.Println(string(result))
+	}
 	return nil
 }
 
