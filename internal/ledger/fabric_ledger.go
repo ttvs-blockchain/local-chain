@@ -116,13 +116,11 @@ func (s *Controller) SubmitTX(binding string, timestamp int64) (string, error) {
 }
 
 func (s *Controller) FindTX(txID string) error {
-	results, err := s.ct.EvaluateTransaction(findTXFuncName, txID)
+	result, err := s.ct.EvaluateTransaction(findTXFuncName, txID)
 	if err != nil {
 		log.Fatalf("Failed to evaluate transaction: %v", err)
 	}
-	for _, result := range results {
-		log.Println(string(result))
-	}
+	log.Println(string(result))
 	return nil
 }
 
