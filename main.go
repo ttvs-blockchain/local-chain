@@ -1,6 +1,10 @@
 package main
 
-import "github.com/ttvs-blockchain/local-chain/internal/ledger"
+import (
+	"log"
+
+	"github.com/ttvs-blockchain/local-chain/internal/ledger"
+)
 
 func main() {
 	lc := ledger.NewController()
@@ -9,6 +13,8 @@ func main() {
 	handleErr(err)
 	err = lc.GetAllTXs()
 	handleErr(err)
+	log.Println("id: ", id)
+	log.Println("FindTX")
 	err = lc.FindTX(id)
 	handleErr(err)
 }

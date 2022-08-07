@@ -131,9 +131,7 @@ func (s *Controller) GetAllTXs() error {
 	if err != nil {
 		log.Fatalf("Failed to evaluate transaction: %v", err)
 	}
-	for _, result := range results {
-		log.Println(string(result))
-	}
+	log.Println(string(results))
 	return nil
 }
 
