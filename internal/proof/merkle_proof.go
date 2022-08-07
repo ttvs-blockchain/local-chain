@@ -1,9 +1,10 @@
 package proof
 
 import (
+	"sync"
+
 	mt "github.com/tommytim0515/go-merkletree"
 	"github.com/ttvs-blockchain/local-chain/internal/model"
-	"sync"
 )
 
 var (
