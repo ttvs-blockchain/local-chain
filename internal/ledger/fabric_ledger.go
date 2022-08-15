@@ -24,7 +24,7 @@ const (
 var (
 	orgConfigPath = filepath.Join(
 		"..",
-		"local-chain-config",
+		"fabric-samples",
 		"test-network",
 		"organizations",
 		"peerOrganizations",

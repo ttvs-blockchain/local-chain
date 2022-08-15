@@ -9,7 +9,7 @@ import (
 )
 
 const (
-	numTXs     = 90
+	numTXs     = 100
 	bindingLen = 32
 )
 
