@@ -5,7 +5,6 @@ import (
 	"log"
 	"os"
 	"path/filepath"
-	"strconv"
 
 	"github.com/hyperledger/fabric-sdk-go/pkg/core/config"
 	"github.com/hyperledger/fabric-sdk-go/pkg/gateway"
@@ -18,7 +17,7 @@ const (
 	walletLabel      = "appUser"
 	org1MSPid        = "Org1MSP"
 	createTXFuncName = "CreateTX"
-	findTXFuncName   = "ReadTX"
+	txExistsName     = "TXExists"
 	getAllTXFuncName = "GetAllTXs"
 )
 
@@ -104,9 +103,9 @@ func (s *Controller) Close() {
 	s.gw.Close()
 }
 
-func (s *Controller) SubmitTX(binding string, timestamp int64) (string, error) {
+func (s *Controller) SubmitTX(hash string) (string, error) {
 	// log.Println("--> Submit Transaction: Invoke, function that adds a new asset")
-	txID, err := s.ct.SubmitTransaction(createTXFuncName, binding, strconv.FormatInt(timestamp, 10))
+	txID, err := s.ct.SubmitTransaction(createTXFuncName, hash)
 	if err != nil {
 		log.Fatalf("Failed to Submit transaction: %v", err)
 		return "", err
@@ -115,8 +114,8 @@ func (s *Controller) SubmitTX(binding string, timestamp int64) (string, error) {
 	return string(txID), nil
 }
 
-func (s *Controller) FindTX(txID string) error {
-	result, err := s.ct.EvaluateTransaction(findTXFuncName, txID)
+func (s *Controller) TXExists(txID string) error {
+	result, err := s.ct.EvaluateTransaction(txExistsName, txID)
 	if err != nil {
 		log.Fatalf("Failed to evaluate transaction: %v", err)
 	}
